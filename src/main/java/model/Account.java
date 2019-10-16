@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import utility.JsonUtil;
 
 public class Account extends JsonUtil {
+
     private String accountID;
     private double balance;
 

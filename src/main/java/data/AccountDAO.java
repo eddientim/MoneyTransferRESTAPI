@@ -48,6 +48,14 @@ public class AccountDAO {
      * @param account account object to be stored
      * @return true for success, false for existing accounts
      */
+//    public Account createAccount(final String name) {
+//        Account acc = new Account();
+//
+//        addAccount(acc);
+//        return acc;
+//    }
+
+
     public boolean addAccount(Account account) {
         if (ACCOUNT_STORE.containsKey(account.getAccountID())) {
             return false;

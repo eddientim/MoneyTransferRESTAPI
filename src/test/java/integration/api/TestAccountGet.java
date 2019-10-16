@@ -1,4 +1,4 @@
-package api;
+package integration.api;
 
 import apicontroller.HTTPCodes;
 import com.mashape.unirest.http.HttpResponse;
@@ -8,12 +8,11 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class TestAccountDelete extends ApiTestSuite {
-
+public class TestAccountGet extends ApiTestSuite {
     @Test
-    public void testAccountDeleted_ShouldSuccess() throws UnirestException {
+    public void testAccountGetShouldSuccess() throws UnirestException {
         String testJson = "{\n" +
-                "\"accountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_DELETE + "\",\n" +
+                "\"accountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_GET + "\",\n" +
                 "\"currency\": 1001,\n" +
                 "\"balance\" : 200\n" +
                 "}";
@@ -24,16 +23,16 @@ public class TestAccountDelete extends ApiTestSuite {
         Assert.assertEquals(jsonResponse.getStatus(), HTTPCodes.CREATED.getCode());
 
         HttpResponse<JsonNode> jsonResponseDelete =
-                Unirest.delete(TestConstants.BASE_URL + TestConstants.ACCOUNT_PATH + "/" + TestConstants.ACCOUNT_ID_FOR_DELETE)
+                Unirest.get(TestConstants.BASE_URL + TestConstants.ACCOUNT_PATH + "/" + TestConstants.ACCOUNT_ID_FOR_GET)
                         .header("accept", "application/json")
                         .asJson();
-        Assert.assertEquals(jsonResponseDelete.getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(jsonResponseDelete.getStatus(), HTTPCodes.SUCCESS.getCode());
     }
 
     @Test
-    public void testAccountDeleted_NoSuchAccount() throws UnirestException {
+    public void testAccountGet_NotFound() throws UnirestException {
         HttpResponse<JsonNode> jsonResponseDelete =
-                Unirest.delete(TestConstants.BASE_URL + TestConstants.ACCOUNT_PATH + "/" + TestConstants.ACCOUNT_ID_FOR_DELETE)
+                Unirest.get(TestConstants.BASE_URL + TestConstants.ACCOUNT_PATH + "/" + TestConstants.ACCOUNT_ID_FOR_GET_NOT_FOUNDED)
                         .header("accept", "application/json")
                         .asJson();
         Assert.assertEquals(jsonResponseDelete.getStatus(), HTTPCodes.NOT_FOUND.getCode());

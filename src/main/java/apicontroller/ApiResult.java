@@ -5,17 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ApiResult {
-    SUCCESS(2000, "Success"),
-    INVALID_REQUEST(2001, "Invalid request"),
-    INVALID_BALANCE(2002, "Invalid balance value"),
-    ACCOUNT_NOT_FOUND(2003, "Account is not founded"),
-    ACCOUNT_ALREADY_EXIST(2004, "Account is already exists"),
-    INSUFFICIENT_FUNDS(2005, "Insufficient balance"),
-    CURRENCY_DOES_NOT_MATCH(2006, "Currencies does not match"),
+    SUCCESS(200, "Success"),
+    INVALID_REQUEST(201, "Invalid request"),
+    INVALID_BALANCE(202, "Invalid balance value"),
+    ACCOUNT_NOT_FOUND(203, "Account is not founded"),
+    ACCOUNT_ALREADY_EXIST(204, "Account is already exists"),
+    INSUFFICIENT_FUNDS(205, "Insufficient balance"),
+    CURRENCY_DOES_NOT_MATCH(206, "Currencies does not match"),
     INVALID_AMOUNT(2007, "Invalid amount value"),
-    TRANSFER_EQUAL_ACCOUNTIDS(2008, "Account ids are same"),
-    INVALID_CURRENCY(2009, "Invalid currency type"),
-    SYSTEM_ERROR(2099, "System error");
+    TRANSFER_EQUAL_ACCOUNTIDS(208, "Account ids are same"),
+    INVALID_CURRENCY(209, "Invalid currency type"),
+    SYSTEM_ERROR(404, "System error");
 
     private int status;
     private String description;

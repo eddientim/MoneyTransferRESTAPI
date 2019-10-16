@@ -1,4 +1,4 @@
-package api;
+package integration.api;
 
 import apicontroller.HTTPCodes;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,12 +15,12 @@ import java.io.IOException;
 public class TestTransfer extends ApiTestSuite {
     @Test
     public void transfer_ShouldSuccess() throws UnirestException {
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
 
         String transferCreateJson = "{\n" +
-                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
-                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION + "\",\n" +
+                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
+                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION + "\",\n" +
                 "\t\"amount\" : \"2\",\n" +
                 "\t\"currency\" : 1001\n" +
                 "}";
@@ -31,18 +31,18 @@ public class TestTransfer extends ApiTestSuite {
                 .asJson();
         Assert.assertEquals(jsonResponse.getStatus(), HTTPCodes.SUCCESS.getCode());
 
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
     }
 
     @Test
     public void transfer_BalancesAreSet() throws UnirestException, IOException {
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
 
         String transferCreateJson = "{\n" +
-                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
-                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION + "\",\n" +
+                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
+                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION + "\",\n" +
                 "\t\"amount\" : \"2\",\n" +
                 "\t\"currency\" : 1001\n" +
                 "}";
@@ -53,10 +53,10 @@ public class TestTransfer extends ApiTestSuite {
                 .asJson();
         Assert.assertEquals(jsonResponse.getStatus(), HTTPCodes.SUCCESS.getCode());
 
-        HttpResponse<JsonNode> getSourceAccountResult = Unirest.get(TestConstants.BASE_URL + TestConstants.ACCOUNT_PATH + "/" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE)
+        HttpResponse<JsonNode> getSourceAccountResult = Unirest.get(TestConstants.BASE_URL + TestConstants.ACCOUNT_PATH + "/" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE)
                 .header("accept", "application/json")
                 .asJson();
-        HttpResponse<JsonNode> getDestinationAccountResult = Unirest.get(TestConstants.BASE_URL + TestConstants.ACCOUNT_PATH + "/" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION)
+        HttpResponse<JsonNode> getDestinationAccountResult = Unirest.get(TestConstants.BASE_URL + TestConstants.ACCOUNT_PATH + "/" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION)
                 .header("accept", "application/json")
                 .asJson();
         Assert.assertEquals(jsonResponse.getStatus(), HTTPCodes.SUCCESS.getCode());
@@ -68,18 +68,18 @@ public class TestTransfer extends ApiTestSuite {
         Assert.assertEquals(198.0, source.getBalance());
         Assert.assertEquals(202.0, destination.getBalance());
 
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
     }
 
     @Test
     public void transfer_InvalidAmount() throws UnirestException {
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
 
         String transferCreateJson = "{\n" +
-                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
-                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION + "\",\n" +
+                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
+                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION + "\",\n" +
                 "\t\"amount\" : \"2.666\",\n" +
                 "\t\"currency\" : 1001\n" +
                 "}";
@@ -90,18 +90,18 @@ public class TestTransfer extends ApiTestSuite {
                 .asJson();
         Assert.assertEquals(jsonResponse.getStatus(), HTTPCodes.BAD_REQUEST.getCode());
 
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
     }
 
     @Test
     public void transfer_NotEnoughFunds() throws UnirestException {
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
 
         String transferCreateJson = "{\n" +
-                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
-                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION + "\",\n" +
+                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
+                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION + "\",\n" +
                 "\t\"amount\" : \"2000\",\n" +
                 "\t\"currency\" : 1001\n" +
                 "}";
@@ -112,18 +112,18 @@ public class TestTransfer extends ApiTestSuite {
                 .asJson();
         Assert.assertEquals(jsonResponse.getStatus(), HTTPCodes.FORBIDDEN.getCode());
 
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
     }
 
     @Test
     public void transfer_NegativeAmount() throws UnirestException {
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
 
         String transferCreateJson = "{\n" +
-                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
-                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION + "\",\n" +
+                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
+                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION + "\",\n" +
                 "\t\"amount\" : \"-1\",\n" +
                 "\t\"currency\" : 1001\n" +
                 "}";
@@ -134,18 +134,18 @@ public class TestTransfer extends ApiTestSuite {
                 .asJson();
         Assert.assertEquals(jsonResponse.getStatus(), HTTPCodes.BAD_REQUEST.getCode());
 
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
     }
 
     @Test
     public void transfer_ZeroAmount() throws UnirestException {
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
 
         String transferCreateJson = "{\n" +
-                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
-                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION + "\",\n" +
+                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
+                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION + "\",\n" +
                 "\t\"amount\" : \"0\",\n" +
                 "\t\"currency\" : 1001\n" +
                 "}";
@@ -156,16 +156,16 @@ public class TestTransfer extends ApiTestSuite {
                 .asJson();
         Assert.assertEquals(jsonResponse.getStatus(), HTTPCodes.BAD_REQUEST.getCode());
 
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
     }
 
     @Test
     public void transfer_AccountDoesNotExist() throws UnirestException {
 
         String transferCreateJson = "{\n" +
-                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
-                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION + "\",\n" +
+                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
+                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION + "\",\n" +
                 "\t\"amount\" : \"2\",\n" +
                 "\t\"currency\" : 1001\n" +
                 "}";
@@ -180,12 +180,12 @@ public class TestTransfer extends ApiTestSuite {
 
     @Test
     public void transfer_Typo() throws UnirestException {
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
 
         String transferCreateJson = "{\n" +
-                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
-                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION + "\",\n" +
+                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
+                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION + "\",\n" +
                 "\t\"amunt\" : \"2\",\n" + // amunt
                 "\t\"currency\" : 1001\n" +
                 "}";
@@ -196,18 +196,18 @@ public class TestTransfer extends ApiTestSuite {
                 .asJson();
         Assert.assertEquals(jsonResponse.getStatus(), HTTPCodes.BAD_REQUEST.getCode());
 
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
     }
 
     @Test
     public void transfer_WrongCurrency() throws UnirestException {
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
 
         String transferCreateJson = "{\n" +
-                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
-                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION + "\",\n" +
+                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
+                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION + "\",\n" +
                 "\t\"amount\" : \"2\",\n" +
                 "\t\"currency\" : 888\n" +
                 "}";
@@ -218,17 +218,17 @@ public class TestTransfer extends ApiTestSuite {
                 .asJson();
         Assert.assertEquals(jsonResponse.getStatus(), HTTPCodes.BAD_REQUEST.getCode());
 
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
     }
 
     @Test
     public void transfer_SameAccountID() throws UnirestException {
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
 
         String transferCreateJson = "{\n" +
-                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
-                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
+                "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
+                "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
                 "\t\"amount\" : \"2\",\n" +
                 "\t\"currency\" : 1001\n" +
                 "}";
@@ -239,35 +239,35 @@ public class TestTransfer extends ApiTestSuite {
                 .asJson();
         Assert.assertEquals(jsonResponse.getStatus(), HTTPCodes.BAD_REQUEST.getCode());
 
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
     }
 
 
     @Test
     public void transfer_MissingElement() throws UnirestException {
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
-        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.CREATED.getCode());
+        Assert.assertEquals(createAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.CREATED.getCode());
 
         String[] jsonCases = {
                 "{\n" +
-                        "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
-                        "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION + "\",\n" +
+                        "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
+                        "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION + "\",\n" +
                         "\t\"currency\" : 1001\n" +
                         "}",
                 "{\n" +
-                        "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION + "\",\n" +
+                        "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION + "\",\n" +
                         "\t\"amount\" : \"2\",\n" +
                         "\t\"currency\" : 1001\n" +
                         "}",
                 "{\n" +
-                        "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
+                        "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
                         "\t\"amount\" : \"2\",\n" +
 
                         "\t\"currency\" : 1001\n" +
                         "}",
                 "{\n" +
-                        "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE + "\",\n" +
-                        "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION + "\",\n" +
+                        "\t\"sourceAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE + "\",\n" +
+                        "\t\"destinationAccountID\" : \"" + TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION + "\",\n" +
                         "\t\"amount\" : \"2\",\n" +
                         "}"
         };
@@ -281,8 +281,8 @@ public class TestTransfer extends ApiTestSuite {
         }
 
 
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
-        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_SOURCE).getStatus(), HTTPCodes.NO_CONTENT.getCode());
+        Assert.assertEquals(deleteAccount(TestConstants.ACCOUNT_ID_FOR_TRANSFER_DESTINATION).getStatus(), HTTPCodes.NO_CONTENT.getCode());
     }
 
 

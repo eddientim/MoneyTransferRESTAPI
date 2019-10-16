@@ -21,10 +21,13 @@ public class AccountController {
             ctx.status(HTTPCodes.BAD_REQUEST.getCode());
             return;
         }
+
+        //TODO NEW_ACCOUNT_BALANCE = 23.005
+
         final double NEW_ACCOUNT_BALANCE = newAccount.getBalance();
 
         // checks valid balance
-        if (NEW_ACCOUNT_BALANCE < 0 || AmountUtil.getFloatDigitCount(NEW_ACCOUNT_BALANCE) > 2) {
+        if (NEW_ACCOUNT_BALANCE < 0 || AmountUtil.countDecimalPlaces(NEW_ACCOUNT_BALANCE) > 2) {
             ctx.result(ApiResult.INVALID_BALANCE.toJSON());
             ctx.status(HTTPCodes.BAD_REQUEST.getCode());
             return;

@@ -1,11 +1,13 @@
-package api;
+package integration.api;
 
 import apicontroller.Router;
 import io.javalin.Javalin;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
+/**
+ * ApiTestSuite setting up sever for integration tests
+ */
 public class ApiTestSuite {
     private static Javalin app;
 

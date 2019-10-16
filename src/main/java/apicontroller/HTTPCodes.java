@@ -1,6 +1,7 @@
 package apicontroller;
 
 public enum HTTPCodes {
+
     SUCCESS(200),
     CREATED(201),
     NO_CONTENT(204),

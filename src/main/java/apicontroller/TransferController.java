@@ -8,6 +8,7 @@ import model.Transfer;
 import utility.AmountUtil;
 
 public class TransferController {
+
     public static Handler createTransfer = ctx -> {
         Transfer newTransfer;
         try {
@@ -21,7 +22,7 @@ public class TransferController {
 
         final double TRANSFER_AMOUNT = newTransfer.getAmount();
         // check if transfer amount is greater than 0
-        if (TRANSFER_AMOUNT <= 0 || AmountUtil.getFloatDigitCount(TRANSFER_AMOUNT) > 2) {
+        if (TRANSFER_AMOUNT <= 0 || AmountUtil.countDecimalPlaces(TRANSFER_AMOUNT) > 2) {
             ctx.status(HTTPCodes.BAD_REQUEST.getCode());
             ctx.result(ApiResult.INVALID_AMOUNT.toJSON());
             return;
